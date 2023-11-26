@@ -9,8 +9,8 @@ const tmpfile = tmpdir.resolve(`.existing-file-${process.pid}`);
 fs.writeFileSync(tmpfile, 'this-is-for-a-benchmark', 'utf8');
 
 const bench = common.createBenchmark(main, {
-  type: ['existing', 'non-existing', 'non-flat-existing'],
-  n: [1e6],
+  type: ['existing', 'non-existing', 'non-flat-existing', 'invalid'],
+  n: [1e5],
 });
 
 function main({ n, type }) {
@@ -25,6 +25,9 @@ function main({ n, type }) {
       break;
     case 'non-existing':
       path = tmpdir.resolve(`.non-existing-file-${process.pid}`);
+      break;
+    case 'invalid':
+      path = -1;
       break;
     default:
       new Error('Invalid type');
